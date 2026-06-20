@@ -47,8 +47,8 @@ Decision needed: **Yes** — 3× over the review budget. Choose `size:exception`
 
 ## Phase 3: Data Schema & Seed
 
-- [ ] 3.1 Create `prisma/schema.prisma` — all 8 models (User, Account, Session, Category, Subcategory, Product, Order, OrderItem) with enums (`UserRole`, `OrderStatus`), relations, indexes
-- [ ] 3.2 Create `prisma/seed.ts` — idempotent seed: admin user (upsert) + 7 categories with subcategories (createMany skipDuplicates)
+- [x] 3.1 Create `prisma/schema.prisma` — all 8 models (User, Account, Session, Category, Subcategory, Product, Order, OrderItem) with enums (`UserRole`, `OrderStatus`), relations, indexes
+- [x] 3.2 Create `prisma/seed.ts` — idempotent seed: admin user (upsert) + 7 categories with subcategories (createMany skipDuplicates)
 
 ## Phase 4: Auth Core
 
