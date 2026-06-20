@@ -52,22 +52,22 @@ Decision needed: **Yes** — 3× over the review budget. Choose `size:exception`
 
 ## Phase 4: Auth Core
 
-- [ ] 4.1 Create `src/lib/auth.ts` — AuthOptions with PrismaAdapter, JWT callback (inject role), session callback
-- [ ] 4.2 Create `src/app/api/auth/[...nextauth]/route.ts` — NextAuth handler (GET/POST)
-- [ ] 4.3 Create `src/components/ui/ClientSessionProvider.tsx` — `"use client"` wrapping SessionProvider
+- [x] 4.1 Create `src/lib/auth.ts` — AuthOptions with PrismaAdapter, JWT callback (inject role), session callback
+- [x] 4.2 Create `src/app/api/auth/[...nextauth]/route.ts` — NextAuth handler (GET/POST)
+- [x] 4.3 Create `src/components/ui/ClientSessionProvider.tsx` — `"use client"` wrapping SessionProvider
 
 ## Phase 5: Design System & Layout Shell
 
-- [ ] 5.1 Create `tailwind.config.ts` — brand palette (`#1573B6`, `#57C2D1`, `#E28A37`, `#FFFFFF`, `#1F2937`), Nunito via `next/font`
-- [ ] 5.2 Create `src/app/globals.css` — `@tailwind base/components/utilities` directives
-- [ ] 5.3 Create `src/app/layout.tsx` — root layout: Nunito font class, ClientSessionProvider, Navbar, Footer, children
-- [ ] 5.4 Create `src/app/page.tsx` — home placeholder with centered heading
-- [ ] 5.5 Create `src/components/layout/Navbar.tsx` — responsive nav: logo, search, cart icon, login link, admin link
-- [ ] 5.6 Create `src/components/layout/NavbarMobile.tsx` — client component: hamburger toggle, slide-out menu
-- [ ] 5.7 Create `src/components/layout/Footer.tsx` — multi-column footer: sitemap links, social placeholders, copyright
+- [x] 5.1 Create `tailwind.config.ts` — brand palette (`#1573B6`, `#57C2D1`, `#E28A37`, `#FFFFFF`, `#1F2937`), Nunito via `next/font`
+- [x] 5.2 Create `src/app/globals.css` — `@tailwind base/components/utilities` directives
+- [x] 5.3 Create `src/app/layout.tsx` — root layout: Nunito font class, ClientSessionProvider, Navbar, Footer, children
+- [x] 5.4 Create `src/app/page.tsx` — home placeholder with centered heading
+- [x] 5.5 Create `src/components/layout/Navbar.tsx` — responsive nav: logo, search, cart icon, login link, admin link
+- [x] 5.6 Create `src/components/layout/NavbarMobile.tsx` — client component: hamburger toggle, slide-out menu
+- [x] 5.7 Create `src/components/layout/Footer.tsx` — multi-column footer: sitemap links, social placeholders, copyright
 
 ## Phase 6: Testing Configuration
 
-- [ ] 6.1 Create `vitest.config.ts` — `@vitejs/plugin-react`, resolve alias for `@/`, glob `**/__tests__/**/*.test.ts`
-- [ ] 6.2 Create `src/__tests__/setup.test.ts` — smoke test (`true === true`) + alias import test via `@/lib/utils`
-- [ ] 6.3 Run `npm install && npx prisma generate && npx vitest run` to validate end-to-end
+- [x] 6.1 Create `vitest.config.ts` — `@vitejs/plugin-react`, resolve alias for `@/`, glob `**/__tests__/**/*.test.ts`
+- [x] 6.2 Create `src/__tests__/setup.test.ts` — smoke test (`true === true`) + alias import test via `@/lib/utils`
+- [x] 6.3 Run `npm install && npx prisma generate && npx vitest run` to validate end-to-end
