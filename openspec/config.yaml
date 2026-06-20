@@ -1,0 +1,52 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Project: PawPets — E-commerce de Productos para Mascotas
+  Tech stack: Next.js 14+ (App Router), TypeScript, Tailwind CSS, PostgreSQL + Prisma ORM, NextAuth.js, Zustand
+  Architecture: SSR e-commerce with admin dashboard, simulated payment gateway
+  Testing: Not configured — no test runner detected (strict_tdd: false)
+  Style: ESLint + Prettier planned, responsive-first, Nunito typography via Google Fonts
+  Brand palette: #1573B6 (blue), #57C2D1 (light blue), #E28A37 (orange), #FFFFFF (white), #1F2937 (text)
+  Domain: Pet products e-commerce (dogs, cats, birds, fish, rodents)
+
+strict_tdd: false
+
+testing:
+  runner: null
+  layers:
+    unit: { available: false, tool: null }
+    integration: { available: false, tool: null }
+    e2e: { available: false, tool: null }
+  coverage: { available: false, command: null }
+  quality:
+    linter: { available: false, command: null }
+    type_checker: { available: false, command: null }
+    formatter: { available: false, command: null }
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Reference PRD sections for each functional requirement
+  specs:
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Tag with PRD requirement IDs (F1-F29, NF1-NF5)
+  design:
+    - Include sequence diagrams for complex flows
+    - Document architecture decisions with rationale
+    - Reference component tree for Next.js App Router pages
+  tasks:
+    - Group by phase (MVP / Phase 2)
+    - Use hierarchical numbering (e.g., 1.1, 1.2)
+    - Keep tasks completable in one session
+  apply:
+    - Follow existing code patterns
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: "npm run build || next build"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas
