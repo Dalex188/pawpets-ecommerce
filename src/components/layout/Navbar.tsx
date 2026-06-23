@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { NavbarMobile } from "./NavbarMobile";
+import { SearchBar } from "@/components/products/SearchBar";
 
 export function Navbar() {
   return (
@@ -26,19 +28,19 @@ export function Navbar() {
             Productos
           </Link>
           <Link
-            href="/productos/perros"
+            href="/productos?categoria=perros"
             className="text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
           >
             Perros
           </Link>
           <Link
-            href="/productos/gatos"
+            href="/productos?categoria=gatos"
             className="text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
           >
             Gatos
           </Link>
           <Link
-            href="/productos/aves"
+            href="/productos?categoria=aves"
             className="text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
           >
             Aves
@@ -47,13 +49,11 @@ export function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-4">
-          {/* Search */}
+          {/* Search — using SearchBar component wrapped in Suspense */}
           <div className="hidden items-center sm:flex">
-            <input
-              type="search"
-              placeholder="Buscar productos..."
-              className="w-40 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary lg:w-56"
-            />
+            <Suspense fallback={null}>
+              <SearchBar />
+            </Suspense>
           </div>
 
           {/* Cart icon */}

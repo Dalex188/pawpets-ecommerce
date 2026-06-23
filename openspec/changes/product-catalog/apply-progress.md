@@ -1,59 +1,74 @@
-# Apply Progress: Product Catalog — PR 2
+# Apply Progress: Product Catalog — PR 3
 
-**Batch**: Phase 2 (Product Components)
+**Batch**: Phases 3 + 4 + 5 (Pages, Navigation, Build Verification)
 **Mode**: Standard (strict_tdd: false)
+**Chain strategy**: stacked-to-main
+**Base branch**: catalog/product-components
+**PR branch**: catalog/pages-navigation
 
 ## Completed Tasks
 
-- [x] 2.1 Create `ProductCard.tsx`
-- [x] 2.2 Create `ProductGrid.tsx`
-- [x] 2.3 Create `Pagination.tsx`
-- [x] 2.4 Create `Breadcrumbs.tsx`
-- [x] 2.5 Create `ProductGallery.tsx`
-- [x] 2.6 Create `ProductInfo.tsx`
-- [x] 2.7 Create `ProductFilters.tsx`
-- [x] 2.8 Create `SearchBar.tsx` and `ProductSorter.tsx`
+### Phase 3 — Pages & Routes
 
-## Files Changed (All Created)
+- [x] 3.1 Create `src/app/productos/page.tsx` — reads `searchParams`, calls `getProducts` + `getCategories`, renders ProductFilters sidebar + SearchBar/ProductSorter controls + ProductGrid + Pagination. Sidebar collapses on mobile. Breadcrumbs wrapper renders correct trail based on URL params.
+- [x] 3.2 Create `src/app/productos/loading.tsx` — 6 pulsing card skeleton placeholders with same grid layout, sidebar skeleton, breadcrumb/title skeletons.
+- [x] 3.3 Create `src/app/productos/[slug]/page.tsx` with `generateMetadata` (title, description, Open Graph) + `notFound()` when product missing. Create `src/app/productos/not-found.tsx` with "Producto no encontrado" message + link back to `/productos`.
+- [x] 3.4 Update `src/app/page.tsx` — replace placeholder dashed divs with "Productos Destacados" section: star icon, heading, ProductGrid with latest 6 products, "Ver todos los productos →" CTA link.
+
+### Phase 4 — Navigation
+
+- [x] 4.1 Update `Navbar.tsx` — replace raw `<input>` with `<SearchBar />` component (wrapped in Suspense for useSearchParams); category links updated: `/productos/perros` → `/productos?categoria=perros` (same for gatos, aves).
+- [x] 4.2 Update `NavbarMobile.tsx` — category links: `/productos/perros` → `/productos?categoria=perros`.
+- [x] 4.3 Update `Footer.tsx` — category links: `/productos/perros` → `/productos?categoria=perros` (all 5 categories).
+
+### Phase 5 — Build Verification
+
+- [x] 5.1 Fix build errors: (1) TypeScript array type inference on Breadcrumbs wrapper, (2) Missing Suspense boundaries around `useSearchParams` components (`SearchBar` in Navbar, `ProductFilters`/`SearchBar`/`ProductSorter`/`Pagination` in productos page), (3) `force-dynamic` on homepage to prevent DB calls at build time.
+- [x] 5.2 Build succeeds — `npm run build` passes with all routes: `/` (ƒ dynamic), `/productos` (ƒ dynamic), `/productos/[slug]` (ƒ dynamic).
+
+## Files Changed
+
+### New Files (5)
 
 | File | Action | What Was Done |
 |------|--------|---------------|
-| `src/components/products/ProductCard.tsx` | **Created** | Server component — image (first from images[]), name, formatted price, brand badge, stock badge (green/red), wraps in Link to `/productos/[slug]`, hover shadow lift effect, group hover scale on image |
-| `src/components/products/ProductGrid.tsx` | **Created** | Server component — responsive grid 1/2/3/4 cols, maps products to ProductCard, empty state with icon + "No se encontraron productos" message |
-| `src/components/products/Pagination.tsx` | **Created** | Client component — page numbers with prev/next SVG arrows, current page highlighted with primary color, ellipsis for large page ranges, hides when totalPages ≤ 1, generates ?page=N search params |
-| `src/components/products/Breadcrumbs.tsx` | **Created** | Server component — `<ol>` with schema.org BreadcrumbList JSON-LD script, chevron separators, last item plain text, links use NEXT_PUBLIC_SITE_URL for canonical items |
-| `src/components/products/ProductGallery.tsx` | **Created** | Client component — main image (aspect-square) + clickable thumbnail strip, useState for selected index, primary border/ring on active thumbnail, responsive horizontal scroll, empty state placeholder |
-| `src/components/products/ProductInfo.tsx` | **Created** | Server component — h1 name, brand, price + "(IVA incluido)", stock badge (green/red), description section, specs table (brand/weight/size/ageGroup, skipping nulls), "Agregar al carrito" button (disabled + "Sin stock" if stock=0, primary color if available) |
-| `src/components/products/ProductFilters.tsx` | **Created** | Client component — sidebar with category list, expandable subcategories, "Todos los productos" link, active states highlighted with primary font color, mobile toggle button (hidden on lg+), router.push with updated search params, resets page on filter change |
-| `src/components/products/SearchBar.tsx` | **Created** | Client component — form with search input + "Buscar" button with SVG icon, reads current searchParams, on submit navigates via router.push with ?q= param, same input styling as existing Navbar raw input |
-| `src/components/products/ProductSorter.tsx` | **Created** | Client component — select dropdown with 5 options (Nombre A-Z, Z-A, Precio menor/mayor, Más nuevos), onChange updates ?sort= via router.push, default "newest" removed from URL when selected |
+| `src/app/productos/page.tsx` | **Created** | Listing page — server component, fetches data via getProducts/getCategories, renders sidebar + controls + grid + pagination |
+| `src/app/productos/loading.tsx` | **Created** | Skeleton with 6 pulsing card placeholders, sidebar + breadcrumb + title skeletons |
+| `src/app/productos/Breadcrumbs.tsx` | **Created** | Wrapper server component that builds BreadcrumbItem[] from URL search params (categoria/subcategoria) |
+| `src/app/productos/[slug]/page.tsx` | **Created** | Detail page with dynamic metadata (title, description, og:image) + Breadcrumbs + ProductGallery + ProductInfo + notFound() |
+| `src/app/productos/not-found.tsx` | **Created** | "Producto no encontrado" with sad face icon + link back to /productos |
+
+### Modified Files (4 + tasks.md)
+
+| File | Action | What Was Done |
+|------|--------|---------------|
+| `src/app/page.tsx` | **Modified** | Replaced placeholder dashed divs with featured products section: star icon, "Productos Destacados" heading, ProductGrid (latest 6), "Ver todos" CTA. Added `force-dynamic` export. |
+| `src/components/layout/Navbar.tsx` | **Modified** | Replaced raw `<input>` with `<SearchBar />` wrapped in Suspense; category links use `?categoria=` query params |
+| `src/components/layout/NavbarMobile.tsx` | **Modified** | Category links use `?categoria=` query params |
+| `src/components/layout/Footer.tsx` | **Modified** | All 5 category links use `?categoria=` query params |
+| `openspec/changes/product-catalog/tasks.md` | **Modified** | All Phase 3/4/5 tasks marked [x] |
 
 ## Deviations from Design
 
-- The design says `src/components/product/` (singular) but the task and this implementation use `src/components/products/` (plural). This matches the task spec.
-- `ProductCard` uses `next/image` with `fill` + `sizes` attribute for proper responsive images. The placeholder `/placeholder.svg` path is referenced but won't show until the file is added (it gracefully falls back to the gray background).
-- `ProductFilters` uses `<a>` elements with `onClick.preventDefault()` + `router.push()` for accessibility (right-click/open in new tab works) while also enabling client-side navigation. This is a pragmatic hybrid over pure `router.push`.
-- `Pagination` uses `basePath` prop instead of hardcoded `/productos`, making it reusable for admin listings.
-- `ProductGallery` accepts a `productName` prop for image alt text (accessibility), which wasn't called out in the spec but follows accessibility best practices.
+1. **searchParams sync (not async)**: Followed the explicit task instruction to use synchronous `searchParams` prop (Next.js 14), matching the installed version (14.2.35).
+2. **Suspense boundaries**: Added `Suspense` boundaries around components using `useSearchParams()` (SearchBar in Navbar, ProductFilters/ProductSorter/Pagination in listing page) — required by Next.js 14 for static generation. Not called out in the design.
+3. **`force-dynamic` on homepage**: Homepage calls `getProducts()` at the top level during server rendering. Added `export const dynamic = 'force-dynamic'` to prevent build-time database connection errors. Not in design.
+4. **Local Breadcrumbs wrapper**: Created `src/app/productos/Breadcrumbs.tsx` as a thin wrapper that constructs BreadcrumbItem[] from searchParams, since the reusable `<Breadcrumbs>` component only accepts an array of items. Not in design but follows the same pattern.
+5. **`/productos?categoria=` vs `/productos/[categoria]`**: The design showed `/productos/perros` as category route, but updated to query-param format per tasks spec. Navigation components updated consistently.
 
 ## Issues Found
 
-- None. All components are self-contained with proper imports from `@/lib/utils` and `next/link`/`next/image`.
-- The `Breadcrumbs` component references `process.env.NEXT_PUBLIC_SITE_URL` which should be set in the environment for correct canonical URLs in JSON-LD. Defaults to `https://pawpets.com` if not set.
-- `ProductCard` references `/placeholder.svg` as a fallback image — if this file doesn't exist, the gray background serves as a visual placeholder.
+- **useSearchParams + static generation**: All client components using `useSearchParams()` need a `Suspense` boundary when rendered in a page that might be statically generated. Fixed by wrapping each consumer.
+- **No database at build time**: Homepage's `getProducts()` call fails during `next build` because there's no PostgreSQL server running. Fixed by marking the page as `force-dynamic`.
+- **BreadcrumbItem type strictness**: The type has `href?: string` (optional), but TypeScript's array type inference from `[{ label: "Inicio", href: "/" }]` narrows it to `{ label: string; href: string }[]`, requiring explicit type annotation.
 
-## Remaining Tasks (Phase 3+)
+## Remaining Tasks
 
-- [ ] 3.1 Create listing page `src/app/productos/page.tsx`
-- [ ] 3.2 Create `src/app/productos/loading.tsx` skeleton
-- [ ] 3.3 Create detail page `src/app/productos/[slug]/page.tsx` + not-found
-- [ ] 3.4 Update homepage featured section
-- [ ] 4.1-4.3 Navigation updates (Navbar, Footer, NavbarMobile)
-- [ ] 5.1-5.2 Build verification
+None. All tasks for Phases 3, 4, and 5 are complete.
 
 ## Workload / PR Boundary
 
-- **Mode**: Stacked PR to main (PR 2 of 3, stacked on `catalog/data-layer-seed`)
-- **Current work unit**: Product components
-- **Boundary**: Phase 2 only — 8 product components, no pages, no navigation changes
-- **Estimated review budget**: ~450-550 additions
+- **Mode**: Stacked PR to main (PR 3 of 3, stacked on `catalog/product-components`)
+- **Current work unit**: Pages + Navigation + Build Verification
+- **Boundary**: All tasks complete — ready for verify and merge
+- **Estimated review budget**: ~9 files (5 new + 4 modified), ~300 additions

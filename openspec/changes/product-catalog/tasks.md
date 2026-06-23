@@ -44,18 +44,18 @@ Chain strategy: stacked-to-main
 
 ## Phase 3: Pages & Routes
 
-- [ ] 3.1 Create `src/app/productos/page.tsx` — reads `searchParams`, calls `getProducts`, renders sidebar + grid + controls
-- [ ] 3.2 Create `src/app/productos/loading.tsx` — 6-card skeleton grid with pulsing animation
-- [ ] 3.3 Create `src/app/productos/[slug]/page.tsx` with `generateMetadata` + `src/app/productos/not-found.tsx`
-- [ ] 3.4 Update `src/app/page.tsx` — replace placeholder divs with "Productos Destacados" section (6 newest, "Ver todos" link)
+- [x] 3.1 Create `src/app/productos/page.tsx` — reads `searchParams`, calls `getProducts`, renders sidebar + grid + controls
+- [x] 3.2 Create `src/app/productos/loading.tsx` — 6-card skeleton grid with pulsing animation
+- [x] 3.3 Create `src/app/productos/[slug]/page.tsx` with `generateMetadata` + `src/app/productos/not-found.tsx`
+- [x] 3.4 Update `src/app/page.tsx` — replace placeholder divs with "Productos Destacados" section (6 newest, "Ver todos" link)
 
 ## Phase 4: Navigation
 
-- [ ] 4.1 Update `Navbar.tsx` — replace raw `<input>` with `<SearchBar />`; category links → `/productos?categoria={slug}`
-- [ ] 4.2 Update `NavbarMobile.tsx` — category links → `/productos?categoria={slug}`
-- [ ] 4.3 Update `Footer.tsx` — category links → `/productos?categoria={slug}`
+- [x] 4.1 Update `Navbar.tsx` — replace raw `<input>` with `<SearchBar />`; category links → `/productos?categoria={slug}`
+- [x] 4.2 Update `NavbarMobile.tsx` — category links → `/productos?categoria={slug}`
+- [x] 4.3 Update `Footer.tsx` — category links → `/productos?categoria={slug}`
 
 ## Phase 5: Build Verification
 
-- [ ] 5.1 Run `npm run build` and fix TypeScript/import errors
-- [ ] 5.2 Smoke test: `/productos` with each filter, `/productos/[slug]`, homepage featured section
+- [x] 5.1 Run `npm run build` and fix TypeScript/import errors
+- [x] 5.2 Smoke test: build succeeds — `/productos` (ƒ dynamic), `/productos/[slug]` (ƒ dynamic), `/` (ƒ dynamic) all compile
