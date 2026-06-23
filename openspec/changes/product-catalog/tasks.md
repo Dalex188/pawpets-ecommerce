@@ -33,14 +33,14 @@ Chain strategy: stacked-to-main
 
 ## Phase 2: Product Components
 
-- [ ] 2.1 Create `ProductCard.tsx` — image, name, price, brand, stock badge, Link to `/productos/[slug]`
-- [ ] 2.2 Create `ProductGrid.tsx` — Server component, responsive grid mapping ProductCard, empty state message
-- [ ] 2.3 Create `Pagination.tsx` — Client component, page numbers with prev/next, highlights current page
-- [ ] 2.4 Create `Breadcrumbs.tsx` — Server component, `<ol>` with schema.org BreadcrumbList structured data
-- [ ] 2.5 Create `ProductGallery.tsx` — Client component, main image + clickable thumbnail strip
-- [ ] 2.6 Create `ProductInfo.tsx` — Server component: price, brand, description, stock badge, disabled CTA if stock=0
-- [ ] 2.7 Create `ProductFilters.tsx` — Client sidebar, category/subcategory tree, active state via `useSearchParams`
-- [ ] 2.8 Create `SearchBar.tsx` and `ProductSorter.tsx`— Client `<form>` and `<select>` updating URL params
+- [x] 2.1 Create `ProductCard.tsx` — image, name, price, brand, stock badge, Link to `/productos/[slug]`
+- [x] 2.2 Create `ProductGrid.tsx` — Server component, responsive grid mapping ProductCard, empty state message
+- [x] 2.3 Create `Pagination.tsx` — Client component, page numbers with prev/next, highlights current page
+- [x] 2.4 Create `Breadcrumbs.tsx` — Server component, `<ol>` with schema.org BreadcrumbList structured data
+- [x] 2.5 Create `ProductGallery.tsx` — Client component, main image + clickable thumbnail strip
+- [x] 2.6 Create `ProductInfo.tsx` — Server component: price, brand, description, stock badge, disabled CTA if stock=0
+- [x] 2.7 Create `ProductFilters.tsx` — Client sidebar, category/subcategory tree, active state via `useSearchParams`
+- [x] 2.8 Create `SearchBar.tsx` and `ProductSorter.tsx`— Client `<form>` and `<select>` updating URL params
 
 ## Phase 3: Pages & Routes
 
