@@ -19,13 +19,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Producto no encontrado — PawPets" };
   }
 
+  const images: string[] = JSON.parse(product.images);
+
   return {
     title: `${product.name} — PawPets`,
     description: product.description ?? `Comprá ${product.name} al mejor precio en PawPets`,
     openGraph: {
       title: product.name,
       description: product.description ?? undefined,
-      images: product.images[0] ? [{ url: product.images[0] }] : undefined,
+      images: images[0] ? [{ url: images[0] }] : undefined,
     },
   };
 }
@@ -36,6 +38,8 @@ export default async function ProductDetailPage({ params }: Props) {
   if (!product) {
     notFound();
   }
+
+  const images: string[] = JSON.parse(product.images);
 
   const breadcrumbItems = [
     { label: "Inicio", href: "/" },

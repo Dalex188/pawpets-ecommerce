@@ -83,8 +83,8 @@ export async function getProducts(params: ProductQueryParams = {}) {
 
   if (q) {
     where.OR = [
-      { name: { contains: q, mode: "insensitive" } },
-      { description: { contains: q, mode: "insensitive" } },
+      { name: { contains: q } },
+      { description: { contains: q } },
     ];
   }
 

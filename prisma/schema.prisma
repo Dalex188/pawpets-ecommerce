@@ -10,21 +10,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-// ── Enums ─────────────────────────────────────
-
-enum UserRole {
-  CLIENT
-  ADMIN
-}
-
-enum OrderStatus {
-  PENDING
-  COMPLETED
-  CANCELLED
 }
 
 // ── Models ────────────────────────────────────
@@ -36,7 +23,7 @@ model User {
   emailVerified DateTime?
   passwordHash  String?
   image         String?
-  role          UserRole  @default(CLIENT)
+  role          String    @default("CLIENT")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -114,7 +101,7 @@ model Product {
   description   String?
   price         Decimal
   stock         Int       @default(0)
-  images        String[]
+  images        String
   weight        String?
   ageGroup      String?
   size          String?
@@ -136,9 +123,9 @@ model Product {
 model Order {
   id              String      @id @default(cuid())
   userId          String
-  status          OrderStatus @default(PENDING)
+  status          String @default("PENDING")
   total           Decimal
-  shippingAddress Json?
+  shippingAddress String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 

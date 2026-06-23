@@ -5,11 +5,12 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface ProductGalleryProps {
-  images: string[];
+  images: string;
   productName: string;
 }
 
-export function ProductGallery({ images, productName }: ProductGalleryProps) {
+export function ProductGallery({ images: imagesRaw, productName }: ProductGalleryProps) {
+  const images: string[] = JSON.parse(imagesRaw);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   if (!images || images.length === 0) {
