@@ -17,6 +17,8 @@ build/
 
 # prisma
 prisma/generated/
+prisma/*.db
+prisma/*.db-journal
 
 # IDE
 .vscode/

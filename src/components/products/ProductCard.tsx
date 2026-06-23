@@ -7,7 +7,7 @@ export interface ProductCardProduct {
   name: string;
   slug: string;
   price: number;
-  images: string[];
+  images: string;
   brand: string | null;
   stock: number;
 }
@@ -17,7 +17,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { name, slug, price, images, brand, stock } = product;
+  const { name, slug, price, images: imagesRaw, brand, stock } = product;
+  const images: string[] = JSON.parse(imagesRaw);
   const imageUrl = images[0] ?? "/placeholder.svg";
   const inStock = stock > 0;
 

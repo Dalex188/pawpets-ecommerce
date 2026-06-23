@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },
-  { label: "Perros", href: "/productos/perros" },
-  { label: "Gatos", href: "/productos/gatos" },
-  { label: "Aves", href: "/productos/aves" },
+  { label: "Perros", href: "/productos?categoria=perros" },
+  { label: "Gatos", href: "/productos?categoria=gatos" },
+  { label: "Aves", href: "/productos?categoria=aves" },
 ];
 
 export function NavbarMobile() {
