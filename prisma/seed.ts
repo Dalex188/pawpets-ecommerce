@@ -138,10 +138,795 @@ async function main() {
     console.log(`  ✓ ${cat.name} (${count} subcategories)`);
   }
 
+  // ── Products ────────────────────────────────
+  const allCategories = await prisma.category.findMany({
+    include: { subcategories: true },
+  });
+
+  const categoryMap = new Map<string, string>();
+  const subcategoryMap = new Map<string, string>();
+  for (const cat of allCategories) {
+    categoryMap.set(cat.slug, cat.id);
+    for (const sub of cat.subcategories) {
+      subcategoryMap.set(`${cat.slug}:${sub.slug}`, sub.id);
+    }
+  }
+
+  interface SeedProduct {
+    name: string;
+    slug: string;
+    description: string;
+    price: number;
+    stock: number;
+    brand: string;
+    categorySlug: string;
+    subcategorySlug: string;
+  }
+
+  const SEED_PRODUCTS: SeedProduct[] = [
+    // ── Perros ────────────────────────────────
+    {
+      name: "Royal Canin Perro Adulto 15kg",
+      slug: "royal-canin-perro-adulto-15kg",
+      description:
+        "Alimento balanceado premium para perros adultos de razas medianas y grandes. Formulado con proteínas de alta calidad y ácidos grasos esenciales.",
+      price: 45.99,
+      stock: 45,
+      brand: "Royal Canin",
+      categorySlug: "perros",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Pro Plan Perro Adulto Raza Mediana 7.5kg",
+      slug: "pro-plan-perro-adulto-raza-mediana-7-5kg",
+      description:
+        "Nutrición avanzada con Optistart para perros adultos de raza mediana. Contiene antioxidantes y omega 3 para una salud óptima.",
+      price: 32.5,
+      stock: 30,
+      brand: "Pro Plan",
+      categorySlug: "perros",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Eukanuba Perro Adulto 12kg",
+      slug: "eukanuba-perro-adulto-12kg",
+      description:
+        "Alimento super premium para perros adultos de razas medianas. Rico en proteína animal de primera calidad para mantener músculos fuertes.",
+      price: 39.99,
+      stock: 0,
+      brand: "Eukanuba",
+      categorySlug: "perros",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Dentastix Fresh 7 unidades",
+      slug: "dentastix-fresh-7-unidades",
+      description:
+        "Snack dental con textura especial que ayuda a reducir el sarro y mantener dientes limpios. Sabor fresco para perros de talla mediana.",
+      price: 8.99,
+      stock: 80,
+      brand: "Pedigree",
+      categorySlug: "perros",
+      subcategorySlug: "snacks-y-premios",
+    },
+    {
+      name: "Pup-Peroni Original 200g",
+      slug: "pup-peroni-original-200g",
+      description:
+        "Deliciosos bastones de carne suave y jugosa, ideales como premio en el entrenamiento de tu perro. Sin colorantes artificiales.",
+      price: 6.5,
+      stock: 65,
+      brand: "Pup-Peroni",
+      categorySlug: "perros",
+      subcategorySlug: "snacks-y-premios",
+    },
+    {
+      name: "Pedigree Schmackos 150g",
+      slug: "pedigree-schmackos-150g",
+      description:
+        "Tiras de carne con delicioso sabor a pollo, perfectas para mimar a tu perro en cualquier momento del día.",
+      price: 5.99,
+      stock: 90,
+      brand: "Pedigree",
+      categorySlug: "perros",
+      subcategorySlug: "snacks-y-premios",
+    },
+    {
+      name: "Pelota Kong Classic Large",
+      slug: "pelota-kong-classic-large",
+      description:
+        "Juguete de goma natural extra resistente para perros medianos y grandes. Ideal para juegos de buscar y morder. Se puede rellenar con premios.",
+      price: 18.99,
+      stock: 40,
+      brand: "Kong",
+      categorySlug: "perros",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Hueso de Nylon Ropa Grande",
+      slug: "hueso-nylon-ropa-grande",
+      description:
+        "Hueso mordedor de nylon saborizado para perros grandes. Ayuda a limpiar dientes y entretener a tu mascota por horas.",
+      price: 12.5,
+      stock: 35,
+      brand: "Nylabone",
+      categorySlug: "perros",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Mordedor Dental con Cuerda",
+      slug: "mordedor-dental-con-cuerda",
+      description:
+        "Juguete interactivo con cerdas de goma que masajean las encías mientras juega. Incluye cuerda resistente para juegos de tira y afloja.",
+      price: 9.99,
+      stock: 55,
+      brand: "PawPets",
+      categorySlug: "perros",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Cama Ortopédica Memory Foam 90cm",
+      slug: "cama-ortopedica-memory-foam-90cm",
+      description:
+        "Cama ortopédica con espuma viscoelástica que se adapta al cuerpo de tu perro. Alivia la presión en articulaciones y proporciona descanso profundo.",
+      price: 89.99,
+      stock: 0,
+      brand: "PetFusion",
+      categorySlug: "perros",
+      subcategorySlug: "camas-y-mantas",
+    },
+    {
+      name: "Cama Tipo Nido para Perro Mediano",
+      slug: "cama-tipo-nido-perro-mediano",
+      description:
+        "Cama acolchada con bordes elevados que brinda seguridad y calidez. Funda desenfundable y lavable a máquina.",
+      price: 45.0,
+      stock: 20,
+      brand: "PawPets",
+      categorySlug: "perros",
+      subcategorySlug: "camas-y-mantas",
+    },
+    {
+      name: "Manta Polar Suave para Mascotas",
+      slug: "manta-polar-suave-mascotas",
+      description:
+        "Manta de microfibra ultra suave para mantener a tu perro cálido y cómodo. Ligera y fácil de lavar. Ideal para viajes y sofá.",
+      price: 24.99,
+      stock: 50,
+      brand: "PawPets",
+      categorySlug: "perros",
+      subcategorySlug: "camas-y-mantas",
+    },
+    {
+      name: "Correa Retráctil Flexi Giant 5m",
+      slug: "correa-retractil-flexi-giant-5m",
+      description:
+        "Correa retráctil de alta resistencia para perros de hasta 50kg. Cinta de 5 metros con sistema de frenado suave y gancho de acero inoxidable.",
+      price: 34.99,
+      stock: 25,
+      brand: "Flexi",
+      categorySlug: "perros",
+      subcategorySlug: "correas-y-collares",
+    },
+    {
+      name: "Collar de Nylon Reflectante Ajustable",
+      slug: "collar-nylon-reflectante-ajustable",
+      description:
+        "Collar de nylon de alta resistencia con costuras reflectantes para visibilidad nocturna. Hebilla de seguridad de liberación rápida.",
+      price: 14.99,
+      stock: 60,
+      brand: "PawPets",
+      categorySlug: "perros",
+      subcategorySlug: "correas-y-collares",
+    },
+    {
+      name: "Arnés Easy Walk Talla M",
+      slug: "arnes-easy-walk-talla-m",
+      description:
+        "Arnés sin tirones con anilla frontal que disuade al perro de jalar. Diseño ergonómico que no restringe el movimiento natural.",
+      price: 29.99,
+      stock: 18,
+      brand: "Easy Walk",
+      categorySlug: "perros",
+      subcategorySlug: "correas-y-collares",
+    },
+
+    // ── Gatos ─────────────────────────────────
+    {
+      name: "Whiskas Adulto 7.5kg",
+      slug: "whiskas-adulto-7-5kg",
+      description:
+        "Alimento completo para gatos adultos con todos los nutrientes esenciales. Fórmula con control de bolas de pelo y omega 6 para piel saludable.",
+      price: 38.99,
+      stock: 35,
+      brand: "Whiskas",
+      categorySlug: "gatos",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Royal Canin Gatito 4kg",
+      slug: "royal-canin-gatito-4kg",
+      description:
+        "Alimento balanceado para gatitos de 4 a 12 meses. Fórmula con antioxidantes y proteínas para apoyar el crecimiento y desarrollo saludable.",
+      price: 42.5,
+      stock: 22,
+      brand: "Royal Canin",
+      categorySlug: "gatos",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Pro Plan Gatito 3kg",
+      slug: "pro-plan-gatito-3kg",
+      description:
+        "Nutrición premium para gatitos con Optistart para un sistema inmune fuerte. Contiene DHA para desarrollo cerebral y visión.",
+      price: 35.99,
+      stock: 15,
+      brand: "Pro Plan",
+      categorySlug: "gatos",
+      subcategorySlug: "alimentos-balanceados",
+    },
+    {
+      name: "Dreamies Original 60g",
+      slug: "dreamies-original-60g",
+      description:
+        "Snacks crujientes por fuera y cremosos por dentro con sabor a pollo. Bolsa resellable para mantener la frescura.",
+      price: 4.99,
+      stock: 100,
+      brand: "Dreamies",
+      categorySlug: "gatos",
+      subcategorySlug: "snacks-y-premios",
+    },
+    {
+      name: "Catit Creamy Lote 6 unidades",
+      slug: "catit-creamy-lote-6-unidades",
+      description:
+        "Sobres de snack cremoso sabor salmón y atún. Textura suave ideal para gatos mayores o como premio especial.",
+      price: 7.5,
+      stock: 72,
+      brand: "Catit",
+      categorySlug: "gatos",
+      subcategorySlug: "snacks-y-premios",
+    },
+    {
+      name: "Varita de Plumas con Campana",
+      slug: "varita-plumas-campana",
+      description:
+        "Juguete interactivo con plumas naturales y campana que estimula el instinto de caza de tu gato. Mango ergonómico antideslizante.",
+      price: 12.99,
+      stock: 0,
+      brand: "PawPets",
+      categorySlug: "gatos",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Láser Interactivo para Gatos",
+      slug: "laser-interactivo-para-gatos",
+      description:
+        "Puntero láser para juegos interactivos con forma de ratón. Incluye patrones de movimiento automáticos y pausas programadas para no frustrar al gato.",
+      price: 8.5,
+      stock: 48,
+      brand: "PetSafe",
+      categorySlug: "gatos",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Ratón de Peluche con Hierba Gatera Lote 3",
+      slug: "raton-peluche-hierba-gatera-lote-3",
+      description:
+        "Lote de 3 ratones de peluche rellenos con hierba gatera orgánica. Costuras reforzadas para mayor durabilidad.",
+      price: 5.99,
+      stock: 85,
+      brand: "PawPets",
+      categorySlug: "gatos",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Rascador Torre Completa 160cm",
+      slug: "rascador-torre-completa-160cm",
+      description:
+        "Torre rascador de 5 niveles con sisal, plataformas, casita y juguete colgante. Proporciona horas de entretenimiento y ejercicio.",
+      price: 89.99,
+      stock: 10,
+      brand: "CatTree",
+      categorySlug: "gatos",
+      subcategorySlug: "camas-y-rascadores",
+    },
+    {
+      name: "Cama Gato Tipo Igloo",
+      slug: "cama-gato-tipo-igloo",
+      description:
+        "Cama cerrada tipo igloo con interior acolchado que brinda privacidad y calidez. Ideal para gatos que buscan esconderse y descansar.",
+      price: 34.99,
+      stock: 17,
+      brand: "PawPets",
+      categorySlug: "gatos",
+      subcategorySlug: "camas-y-rascadores",
+    },
+    {
+      name: "Rascador de Cartón Reciclado",
+      slug: "rascador-carton-reciclado",
+      description:
+        "Rascador ecológico de cartón reciclado con forma de onda. Viene con hierba gatera incorporada. Reemplazable y biodegradable.",
+      price: 19.99,
+      stock: 42,
+      brand: "PetEco",
+      categorySlug: "gatos",
+      subcategorySlug: "camas-y-rascadores",
+    },
+    {
+      name: "Bandeja Sanitaria Esquinera",
+      slug: "bandeja-sanitaria-esquinera",
+      description:
+        "Bandeja sanitaria con diseño esquinero que ahorra espacio. Paredes altas anti-salpicaduras y borde antidesbordamiento.",
+      price: 24.99,
+      stock: 28,
+      brand: "PawPets",
+      categorySlug: "gatos",
+      subcategorySlug: "areneros-y-accesorios",
+    },
+    {
+      name: "Palas Limpiadoras Metálicas Lote 2",
+      slug: "palas-limpiadoras-metalicas-lote-2",
+      description:
+        "Set de dos palas metálicas para limpieza de arenero. Una ranurada para separar desechos y otra sólida para limpieza general.",
+      price: 8.99,
+      stock: 55,
+      brand: "PawPets",
+      categorySlug: "gatos",
+      subcategorySlug: "areneros-y-accesorios",
+    },
+
+    // ── Aves ──────────────────────────────────
+    {
+      name: "Mixtura para Canarios 1kg",
+      slug: "mixtura-canarios-1kg",
+      description:
+        "Mezcla premium de semillas seleccionadas para canarios. Incluye alpiste, colza, nabina y avena pelada. Enriquecida con vitaminas.",
+      price: 9.99,
+      stock: 38,
+      brand: "Versele-Laga",
+      categorySlug: "aves",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Alimento Extruido para Loros 2kg",
+      slug: "alimento-extruido-loros-2kg",
+      description:
+        "Alimento completo extruido para loros medianos y grandes. Fórmula equilibrada con frutas, verduras y minerales esenciales.",
+      price: 18.5,
+      stock: 0,
+      brand: "Nutribird",
+      categorySlug: "aves",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Semillas para Periquitos 500g",
+      slug: "semillas-periquitos-500g",
+      description:
+        "Mezcla de semillas de alta calidad para periquitos australianos. Contiene mijo, alpiste y avena con complemento vitamínico.",
+      price: 6.99,
+      stock: 50,
+      brand: "PawPets",
+      categorySlug: "aves",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Jaula para Periquitos con Accesorios",
+      slug: "jaula-periquitos-accesorios",
+      description:
+        "Jaula metálica para periquitos con bandeja extraíble, comederos, bebederos y perchas de madera. Medidas 40x30x50cm.",
+      price: 59.99,
+      stock: 12,
+      brand: "PawPets",
+      categorySlug: "aves",
+      subcategorySlug: "jaulas-y-accesorios",
+    },
+    {
+      name: "Bebedero Tubo para Jaulas",
+      slug: "bebedero-tubo-jaulas",
+      description:
+        "Bebedero de tubo de vidrio con boquilla metálica antigoteo. Fácil de instalar y desmontar para limpieza. Capacidad 250ml.",
+      price: 8.99,
+      stock: 65,
+      brand: "PawPets",
+      categorySlug: "aves",
+      subcategorySlug: "jaulas-y-accesorios",
+    },
+    {
+      name: "Columpio de Madera para Loros",
+      slug: "columpio-madera-loros",
+      description:
+        "Columpio de madera natural con cadena de acero y campana. Estimula el equilibrio y proporciona entretenimiento a tu loro.",
+      price: 14.99,
+      stock: 22,
+      brand: "PawPets",
+      categorySlug: "aves",
+      subcategorySlug: "juguetes",
+    },
+    {
+      name: "Espejo con Campana para Jaula",
+      slug: "espejo-campana-jaula",
+      description:
+        "Espejo acrílico irrompible con campana y percha incorporada. Estimula la interacción y evita el aburrimiento de tu ave.",
+      price: 7.99,
+      stock: 40,
+      brand: "PawPets",
+      categorySlug: "aves",
+      subcategorySlug: "juguetes",
+    },
+
+    // ── Peces ─────────────────────────────────
+    {
+      name: "Acuario Completo 60L con Filtro",
+      slug: "acuario-completo-60l-filtro",
+      description:
+        "Acuario de vidrio de 60 litros con filtro interno, iluminación LED y tapa. Kit completo ideal para empezar tu acuario tropical.",
+      price: 129.99,
+      stock: 0,
+      brand: "AquaOne",
+      categorySlug: "peces",
+      subcategorySlug: "acuarios-y-peceras",
+    },
+    {
+      name: "Pecera Esquinera 20L LED",
+      slug: "pecera-esquinera-20l-led",
+      description:
+        "Pecera de diseño esquinero con capacidad de 20 litros. Incluye iluminación LED azul y filtro de cascada silencioso.",
+      price: 45.0,
+      stock: 14,
+      brand: "AquaOne",
+      categorySlug: "peces",
+      subcategorySlug: "acuarios-y-peceras",
+    },
+    {
+      name: "Escamas Tropicales 250ml",
+      slug: "escamas-tropicales-250ml",
+      description:
+        "Alimento en escamas de alta calidad para peces tropicales. Fórmula equilibrada con proteínas, vitaminas y carotenoides para realzar colores.",
+      price: 7.99,
+      stock: 70,
+      brand: "Tetra",
+      categorySlug: "peces",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Alimento en Gránulos para Goldfish",
+      slug: "alimento-granulos-goldfish",
+      description:
+        "Gránulos premium que se hunden lentamente para goldfish. Fórmula baja en proteínas adaptada a su sistema digestivo.",
+      price: 6.5,
+      stock: 45,
+      brand: "Hikari",
+      categorySlug: "peces",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Larvas de Mosquito Liofilizadas 50ml",
+      slug: "larvas-mosquito-liofilizadas-50ml",
+      description:
+        "Larvas de mosquito liofilizadas, ricas en proteínas. Complemento alimenticio ideal para peces tropicales y bettas.",
+      price: 9.99,
+      stock: 33,
+      brand: "Tetra",
+      categorySlug: "peces",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Filtro Interno para Acuarios Hasta 100L",
+      slug: "filtro-interno-acuarios-100l",
+      description:
+        "Filtro interno sumergible con bomba de 300L/h. Sistema de filtración biológica, mecánica y química. Incluye esponja y carbón activado.",
+      price: 34.99,
+      stock: 20,
+      brand: "AquaClear",
+      categorySlug: "peces",
+      subcategorySlug: "filtros-y-accesorios",
+    },
+    {
+      name: "Calentador Sumergible 100W",
+      slug: "calentador-sumergible-100w",
+      description:
+        "Calentador automático sumergible con control de temperatura ajustable. Ideal para acuarios de 40 a 80 litros. Termostato preciso.",
+      price: 24.99,
+      stock: 30,
+      brand: "Eheim",
+      categorySlug: "peces",
+      subcategorySlug: "filtros-y-accesorios",
+    },
+
+    // ── Roedores ──────────────────────────────
+    {
+      name: "Mezcla Nutritiva para Hámster 500g",
+      slug: "mezcla-nutritiva-hamster-500g",
+      description:
+        "Mezcla completa de semillas, cereales y pellets para hámster. Enriquecida con vitaminas y minerales para una dieta equilibrada.",
+      price: 7.99,
+      stock: 42,
+      brand: "Vitakraft",
+      categorySlug: "roedores",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Alimento Balanceado para Conejo 2kg",
+      slug: "alimento-balanceado-conejo-2kg",
+      description:
+        "Pellets extruidos de alfalfa con verduras deshidratadas. Alto contenido de fibra para una digestión saludable de tu conejo.",
+      price: 14.99,
+      stock: 25,
+      brand: "Oxbow",
+      categorySlug: "roedores",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Heno Natural para Cobayas 1kg",
+      slug: "heno-natural-cobayas-1kg",
+      description:
+        "Heno de hierba natural de primera corte, rico en fibra. Esencial para la salud dental y digestiva de cobayas y conejos.",
+      price: 9.99,
+      stock: 38,
+      brand: "PawPets",
+      categorySlug: "roedores",
+      subcategorySlug: "alimentos",
+    },
+    {
+      name: "Jaula para Hámster con Túneles",
+      slug: "jaula-hamster-tuneles",
+      description:
+        "Jaula modular con base profunda, rejilla superior y tubos conectores. Incluye rueda, comedero y bebedero. Fácil de limpiar.",
+      price: 49.99,
+      stock: 0,
+      brand: "Ferplast",
+      categorySlug: "roedores",
+      subcategorySlug: "jaulas-y-habitats",
+    },
+    {
+      name: "Hábitat para Conejo 2 Niveles",
+      slug: "habitat-conejo-2-niveles",
+      description:
+        "Jaula espaciosa de dos niveles con rampa, plataforma y área de descanso. Bandeja extraíble para limpieza fácil.",
+      price: 79.99,
+      stock: 8,
+      brand: "PawPets",
+      categorySlug: "roedores",
+      subcategorySlug: "jaulas-y-habitats",
+    },
+    {
+      name: "Rueda de Ejercicio Silenciosa",
+      slug: "rueda-ejercicio-silenciosa",
+      description:
+        "Rueda de ejercicio con rodamiento de bolas silencioso para hámster o jerbo. Diámetro 20cm, superficie antideslizante.",
+      price: 14.99,
+      stock: 33,
+      brand: "SilentRunner",
+      categorySlug: "roedores",
+      subcategorySlug: "accesorios",
+    },
+    {
+      name: "Bebedero Botella 250ml",
+      slug: "bebedero-botella-250ml",
+      description:
+        "Botella bebedero con tubo metálico y bola antigoteo. Capacidad 250ml con soporte de fijación ajustable para todo tipo de jaulas.",
+      price: 6.99,
+      stock: 60,
+      brand: "PawPets",
+      categorySlug: "roedores",
+      subcategorySlug: "accesorios",
+    },
+
+    // ── Salud General ─────────────────────────
+    {
+      name: "Antipulgas Frontline Spot On Perros",
+      slug: "antipulgas-frontline-spot-on-perros",
+      description:
+        "Tratamiento antipulgas y garrapatas en pipeta para perros de 10 a 20kg. Aplicación mensual. Protege hasta 4 semanas.",
+      price: 29.99,
+      stock: 40,
+      brand: "Frontline",
+      categorySlug: "salud-general",
+      subcategorySlug: "medicamentos",
+    },
+    {
+      name: "Desparasitante Interno Comprimidos Lote 6",
+      slug: "desparasitante-interno-comprimidos-lote-6",
+      description:
+        "Comprimidos masticables con sabor a hígado para desparasitación interna de perros y gatos. Eficaz contra lombrices y tenias.",
+      price: 18.99,
+      stock: 55,
+      brand: "Drontal",
+      categorySlug: "salud-general",
+      subcategorySlug: "medicamentos",
+    },
+    {
+      name: "Shampoo Neutro para Perros 500ml",
+      slug: "shampoo-neutro-perros-500ml",
+      description:
+        "Shampoo suave pH balanceado para perros con piel sensible. Libre de parabenos y sulfatos. Con aloe vera y avena coloidal.",
+      price: 12.99,
+      stock: 48,
+      brand: "PawPets",
+      categorySlug: "salud-general",
+      subcategorySlug: "higiene-y-cuidado",
+    },
+    {
+      name: "Cepillo Cerdas Suaves para Gatos",
+      slug: "cepillo-cerdas-suaves-gatos",
+      description:
+        "Cepillo de cerdas suaves con mango ergonómico para gatos. Ideal para eliminar pelo suelto y prevenir bolas de pelo.",
+      price: 9.99,
+      stock: 62,
+      brand: "PawPets",
+      categorySlug: "salud-general",
+      subcategorySlug: "higiene-y-cuidado",
+    },
+    {
+      name: "Cortaúñas Profesional para Mascotas",
+      slug: "cortaunas-profesional-mascotas",
+      description:
+        "Cortaúñas tipo guillotina con hoja de acero inoxidable para perros y gatos. Incluye lima incorporada y protector de seguridad.",
+      price: 14.99,
+      stock: 35,
+      brand: "PawPets",
+      categorySlug: "salud-general",
+      subcategorySlug: "higiene-y-cuidado",
+    },
+    {
+      name: "Omega 3 Aceite de Salmón para Perros 250ml",
+      slug: "omega-3-aceite-salmon-perros-250ml",
+      description:
+        "Aceite de salmón puro prensado en frío, rico en ácidos grasos omega 3. Favorece la piel, el pelaje y la salud articular.",
+      price: 24.99,
+      stock: 20,
+      brand: "Nordic Naturals",
+      categorySlug: "salud-general",
+      subcategorySlug: "suplementos",
+    },
+    {
+      name: "Probiótico en Polvo para Mascotas 100g",
+      slug: "probiotico-polvo-mascotas-100g",
+      description:
+        "Suplemento probiótico en polvo con 10 cepas bacterianas beneficiosas. Mejora la digestión y fortalece el sistema inmunológico.",
+      price: 19.99,
+      stock: 15,
+      brand: "PawPets",
+      categorySlug: "salud-general",
+      subcategorySlug: "suplementos",
+    },
+
+    // ── Accesorios Generales ──────────────────
+    {
+      name: "Comedero Acero Inoxidable 1L",
+      slug: "comedero-acero-inoxidable-1l",
+      description:
+        "Comedero de acero inoxidable con base antideslizante de silicona. Capacidad 1 litro. Resistente a golpes y fácil de limpiar.",
+      price: 12.99,
+      stock: 75,
+      brand: "PawPets",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "comederos-y-bebederos",
+    },
+    {
+      name: "Bebedero Automático Gravedad 3L",
+      slug: "bebedero-automatico-gravedad-3l",
+      description:
+        "Bebedero automático por gravedad con depósito transparente de 3 litros. Proporciona agua fresca constantemente sin necesidad de electricidad.",
+      price: 24.99,
+      stock: 30,
+      brand: "PawPets",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "comederos-y-bebederos",
+    },
+    {
+      name: "Bandeja Antiderrames con Borde",
+      slug: "bandeja-antiderrames-borde",
+      description:
+        "Bandeja de silicona con bordes elevados que atrapa derrames de comida y agua. Fácil de limpiar. Ideal para proteger el piso.",
+      price: 15.99,
+      stock: 44,
+      brand: "PawPets",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "comederos-y-bebederos",
+    },
+    {
+      name: "Transportadora Plegable Mediana",
+      slug: "transportadora-plegable-mediana",
+      description:
+        "Transportadora plegable de nylon resistente con malla transpirable. Ideal para perros y gatos de hasta 10kg. Incluye hombrera acolchada.",
+      price: 44.99,
+      stock: 16,
+      brand: "PawPets",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "transportadoras",
+    },
+    {
+      name: "Mochila Transportadora para Mascotas",
+      slug: "mochila-transportadora-mascotas",
+      description:
+        "Mochila transportadora con ventana abovedada de malla y laterales acolchados. Compatible con perros y gatos hasta 8kg.",
+      price: 54.99,
+      stock: 0,
+      brand: "PetAce",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "transportadoras",
+    },
+    {
+      name: "Placa Identificativa Grabada Acero",
+      slug: "placa-identificativa-grabada-acero",
+      description:
+        "Placa de acero inoxidable con grabado personalizado. Incluye nombre, teléfono y dirección. Resistente al agua y los arañazos.",
+      price: 9.99,
+      stock: 95,
+      brand: "PawPets",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "identificacion",
+    },
+    {
+      name: "Medalla Colgante con QR",
+      slug: "medalla-colgante-qr",
+      description:
+        "Medalla identificativa con código QR único que enlaza a un perfil digital con datos de contacto. Sin grabado, se actualiza online.",
+      price: 14.99,
+      stock: 58,
+      brand: "PetQR",
+      categorySlug: "accesorios-generales",
+      subcategorySlug: "identificacion",
+    },
+  ];
+
+  let totalProducts = 0;
+
+  for (const prod of SEED_PRODUCTS) {
+    const categoryId = categoryMap.get(prod.categorySlug);
+    const subcategoryId = subcategoryMap.get(
+      `${prod.categorySlug}:${prod.subcategorySlug}`,
+    );
+
+    if (!categoryId || !subcategoryId) {
+      console.warn(
+        `  ⚠ Skipping "${prod.name}" — missing category/subcategory lookup`,
+      );
+      continue;
+    }
+
+    await prisma.product.upsert({
+      where: { slug: prod.slug },
+      update: {
+        price: prod.price,
+        stock: prod.stock,
+        description: prod.description,
+        brand: prod.brand,
+        images: [
+          `https://picsum.photos/seed/${prod.slug}/400/400`,
+          `https://picsum.photos/seed/${prod.slug}-2/400/400`,
+        ],
+        categoryId,
+        subcategoryId,
+      },
+      create: {
+        name: prod.name,
+        slug: prod.slug,
+        description: prod.description,
+        price: prod.price,
+        stock: prod.stock,
+        brand: prod.brand,
+        images: [
+          `https://picsum.photos/seed/${prod.slug}/400/400`,
+          `https://picsum.photos/seed/${prod.slug}-2/400/400`,
+        ],
+        categoryId,
+        subcategoryId,
+      },
+    });
+
+    totalProducts++;
+  }
+
+  console.log(`  ✓ ${totalProducts} products`);
+
   console.log(`\n✅ Seed complete.`);
   console.log(`   • 1 admin user`);
   console.log(`   • ${SEED_CATEGORIES.length} categories`);
   console.log(`   • ${totalSubcategories} subcategories`);
+  console.log(`   • ${totalProducts} products`);
 }
 
 main()
