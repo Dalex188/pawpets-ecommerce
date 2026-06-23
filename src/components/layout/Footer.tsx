@@ -12,27 +12,27 @@ export function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/productos/perros" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/productos?categoria=perros" className="text-sm text-white/70 transition-colors hover:text-white">
                   Perros
                 </Link>
               </li>
               <li>
-                <Link href="/productos/gatos" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/productos?categoria=gatos" className="text-sm text-white/70 transition-colors hover:text-white">
                   Gatos
                 </Link>
               </li>
               <li>
-                <Link href="/productos/aves" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/productos?categoria=aves" className="text-sm text-white/70 transition-colors hover:text-white">
                   Aves
                 </Link>
               </li>
               <li>
-                <Link href="/productos/peces" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/productos?categoria=peces" className="text-sm text-white/70 transition-colors hover:text-white">
                   Peces
                 </Link>
               </li>
               <li>
-                <Link href="/productos/roedores" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/productos?categoria=roedores" className="text-sm text-white/70 transition-colors hover:text-white">
                   Roedores
                 </Link>
               </li>
