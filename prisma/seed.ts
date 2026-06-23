@@ -125,17 +125,21 @@ async function main() {
       },
     });
 
-    const { count } = await prisma.subcategory.createMany({
-      data: cat.subcategories.map((sub) => ({
-        name: sub.name,
-        slug: sub.slug,
-        categoryId: category.id,
-      })),
-      skipDuplicates: true,
-    });
+    let createdCount = 0;
+    for (const sub of cat.subcategories) {
+      const existing = await prisma.subcategory.findFirst({
+        where: { name: sub.name, categoryId: category.id },
+      });
+      if (!existing) {
+        await prisma.subcategory.create({
+          data: { name: sub.name, slug: sub.slug, categoryId: category.id },
+        });
+      }
+      createdCount++;
+    }
 
-    totalSubcategories += count;
-    console.log(`  ✓ ${cat.name} (${count} subcategories)`);
+    totalSubcategories += createdCount;
+    console.log(`  ✓ ${cat.name} (${createdCount} subcategories)`);
   }
 
   // ── Products ────────────────────────────────
@@ -887,6 +891,10 @@ async function main() {
       continue;
     }
 
+    const images = JSON.stringify([
+      `https://picsum.photos/seed/${prod.slug}/400/400`,
+      `https://picsum.photos/seed/${prod.slug}-2/400/400`,
+    ]);
     await prisma.product.upsert({
       where: { slug: prod.slug },
       update: {
@@ -894,10 +902,7 @@ async function main() {
         stock: prod.stock,
         description: prod.description,
         brand: prod.brand,
-        images: [
-          `https://picsum.photos/seed/${prod.slug}/400/400`,
-          `https://picsum.photos/seed/${prod.slug}-2/400/400`,
-        ],
+        images,
         categoryId,
         subcategoryId,
       },
@@ -908,10 +913,7 @@ async function main() {
         price: prod.price,
         stock: prod.stock,
         brand: prod.brand,
-        images: [
-          `https://picsum.photos/seed/${prod.slug}/400/400`,
-          `https://picsum.photos/seed/${prod.slug}-2/400/400`,
-        ],
+        images,
         categoryId,
         subcategoryId,
       },
