@@ -67,17 +67,17 @@ Chain strategy: feature-branch-chain
 
 ## Phase 5: Orders Management Pages
 
-- [ ] 5.1 Create `src/app/admin/orders/page.tsx` — RSC table: order number (link), customer name+email, date, total, status badge (PENDING=yellow, CONFIRMED=green, CANCELLED=red), filter by status dropdown; `getAllOrders({ status })`
-- [ ] 5.2 Create `src/app/admin/orders/[id]/page.tsx` — RSC detail: order info, items table (image, name, qty, unit price, line total), shipping address, status badge, status select dropdown → `updateOrderStatus(id, status)`; `notFound()` if null
-- [ ] 5.3 Component tests: `src/__tests__/admin-orders-list.test.tsx` — renders table, status filter, empty state, status badge colors
-- [ ] 5.4 Component tests: `src/__tests__/admin-order-detail.test.tsx` — renders items, shipping, status dropdown, calls action on change, notFound
+- [x] 5.1 Create `src/app/admin/orders/page.tsx` — RSC table: order number (link), customer name+email, date, total, status badge (PENDING=yellow, CONFIRMED=green, CANCELLED=red), filter by status dropdown; `getAllOrders({ status })`
+- [x] 5.2 Create `src/app/admin/orders/[id]/page.tsx` — RSC detail: order info, items table (image, name, qty, unit price, line total), shipping address, status badge, status select dropdown → `updateOrderStatus(id, status)`; `notFound()` if null
+- [x] 5.3 Component tests: `src/__tests__/admin-orders-list.test.tsx` — renders table, status filter, empty state, status badge colors
+- [x] 5.4 Component tests: `src/__tests__/admin-order-detail.test.tsx` — renders items, shipping, status dropdown, calls action on change, notFound
 
 ## Phase 6: Navbar Admin Link
 
-- [ ] 6.1 Update `src/components/layout/Navbar.tsx` — add conditional "Panel Admin" link with icon when `session.user.role === "ADMIN"` (keep "Mi Perfil" for all authenticated)
-- [ ] 6.2 Update `src/components/layout/NavbarMobile.tsx` — add conditional "Panel Admin" link in mobile menu when `isAuthenticated` and role is ADMIN (requires passing role from parent)
-- [ ] 6.3 Update `Navbar.tsx` to pass `userRole` to `NavbarMobile` prop
-- [ ] 6.4 Component tests: `src/__tests__/navbar-admin-link.test.tsx` — admin sees link, client does not, unauthenticated does not
+- [x] 6.1 Update `src/components/layout/Navbar.tsx` — add conditional "Panel Admin" link with icon when `session.user.role === "ADMIN"` (keep "Mi Perfil" for all authenticated)
+- [x] 6.2 Update `src/components/layout/NavbarMobile.tsx` — add conditional "Panel Admin" link in mobile menu when `isAuthenticated` and role is ADMIN (requires passing role from parent)
+- [x] 6.3 Update `Navbar.tsx` to pass `userRole` to `NavbarMobile` prop
+- [x] 6.4 Component tests: `src/__tests__/navbar-admin-link.test.tsx` — admin sees link, client does not, unauthenticated does not
 
 ## Phase 7: Integration Tests
 
