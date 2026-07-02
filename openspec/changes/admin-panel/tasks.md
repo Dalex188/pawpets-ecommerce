@@ -39,10 +39,10 @@ Chain strategy: feature-branch-chain
 
 ## Phase 2: Server Actions (Product CRUD + Order Status)
 
-- [ ] 2.1 Implement `createProduct(formData)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, validate required fields, parse images JSON, unique slug check, create product, return `{ success: true, product }` or `{ success: false, error }`
-- [ ] 2.2 Implement `updateProduct(id, formData)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, validate, parse images JSON, unique slug (exclude current), update product, return result
-- [ ] 2.3 Implement `deleteProduct(id)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, check `orderItems` count > 0 → reject, else delete, return result
-- [ ] 2.4 Implement `updateOrderStatus(orderId, status)` in `src/lib/actions/admin-orders.ts` — auth check ADMIN, validate transition PENDING → CONFIRMED|CANCELLED only, update order, return result
+- [x] 2.1 Implement `createProduct(formData)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, validate required fields, parse images JSON, unique slug check, create product, return `{ success: true, product }` or `{ success: false, error }`
+- [x] 2.2 Implement `updateProduct(id, formData)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, validate, parse images JSON, unique slug (exclude current), update product, return result
+- [x] 2.3 Implement `deleteProduct(id)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, check `orderItems` count > 0 → reject, else delete, return result
+- [x] 2.4 Implement `updateOrderStatus(orderId, status)` in `src/lib/actions/admin-orders.ts` — auth check ADMIN, validate transition PENDING → CONFIRMED|CANCELLED only, update order, return result
 - [x] 2.5 Unit tests: `src/__tests__/admin-products-actions.test.ts` — createProduct validation, duplicate slug, updateProduct, deleteProduct with/without orderItems
 - [x] 2.6 Unit tests: `src/__tests__/admin-orders-actions.test.ts` — updateOrderStatus valid/invalid transitions, non-admin rejection
 
