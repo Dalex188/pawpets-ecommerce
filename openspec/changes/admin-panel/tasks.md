@@ -43,8 +43,8 @@ Chain strategy: feature-branch-chain
 - [ ] 2.2 Implement `updateProduct(id, formData)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, validate, parse images JSON, unique slug (exclude current), update product, return result
 - [ ] 2.3 Implement `deleteProduct(id)` in `src/lib/actions/admin-products.ts` — auth check ADMIN, check `orderItems` count > 0 → reject, else delete, return result
 - [ ] 2.4 Implement `updateOrderStatus(orderId, status)` in `src/lib/actions/admin-orders.ts` — auth check ADMIN, validate transition PENDING → CONFIRMED|CANCELLED only, update order, return result
-- [ ] 2.5 Unit tests: `src/__tests__/admin-products-actions.test.ts` — createProduct validation, duplicate slug, updateProduct, deleteProduct with/without orderItems
-- [ ] 2.6 Unit tests: `src/__tests__/admin-orders-actions.test.ts` — updateOrderStatus valid/invalid transitions, non-admin rejection
+- [x] 2.5 Unit tests: `src/__tests__/admin-products-actions.test.ts` — createProduct validation, duplicate slug, updateProduct, deleteProduct with/without orderItems
+- [x] 2.6 Unit tests: `src/__tests__/admin-orders-actions.test.ts` — updateOrderStatus valid/invalid transitions, non-admin rejection
 
 ## Phase 3: Admin Layout + Dashboard
 
@@ -57,13 +57,13 @@ Chain strategy: feature-branch-chain
 
 ## Phase 4: Products CRUD Pages
 
-- [ ] 4.1 Create `src/app/admin/products/page.tsx` — RSC table: image thumb, name, category, stock, price, actions (edit link + delete button); server-side search via `getProductsAdmin({ search })`; "Nuevo producto" button → `/admin/products/new`
-- [ ] 4.2 Create `src/app/admin/products/new/page.tsx` — RSC form: name, slug, description, brand, price, stock, category select, subcategory select, images textarea (JSON), isFeatured checkbox; POST → `createProduct(formData)`; redirect on success
-- [ ] 4.3 Create `src/app/admin/products/[id]/page.tsx` — RSC edit form pre-filled via `getProductById(id)`; `notFound()` if null; POST → `updateProduct(id, formData)`; redirect on success
-- [ ] 4.4 Add delete confirmation modal to products list page (client component) calling `deleteProduct(id)`
-- [ ] 4.5 Component tests: `src/__tests__/admin-products-list.test.tsx` — renders table, search, delete button, empty state
-- [ ] 4.6 Component tests: `src/__tests__/admin-products-create.test.tsx` — form renders, validation, submit calls action
-- [ ] 4.7 Component tests: `src/__tests__/admin-products-edit.test.tsx` — form pre-filled, update calls action, notFound for invalid id
+- [x] 4.1 Create `src/app/admin/products/page.tsx` — RSC table: image thumb, name, category, stock, price, actions (edit link + delete button); server-side search via `getProductsAdmin({ search })`; "Nuevo producto" button → `/admin/products/new`
+- [x] 4.2 Create `src/app/admin/products/new/page.tsx` — RSC form: name, slug, description, brand, price, stock, category select, subcategory select, images textarea (JSON), isFeatured checkbox; POST → `createProduct(formData)`; redirect on success
+- [x] 4.3 Create `src/app/admin/products/[id]/page.tsx` — RSC edit form pre-filled via `getProductById(id)`; `notFound()` if null; POST → `updateProduct(id, formData)`; redirect on success
+- [x] 4.4 Add delete confirmation modal to products list page (client component) calling `deleteProduct(id)`
+- [x] 4.5 Component tests: `src/__tests__/admin-products-list.test.tsx` — renders table, search, delete button, empty state
+- [x] 4.6 Component tests: `src/__tests__/admin-products-create.test.tsx` — form renders, validation, submit calls action
+- [x] 4.7 Component tests: `src/__tests__/admin-products-edit.test.tsx` — form pre-filled, update calls action, notFound for invalid id
 
 ## Phase 5: Orders Management Pages
 
