@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -51,6 +52,14 @@ export function AdminSidebar() {
           );
         })}
       </nav>
+      <div className="border-t px-3 py-3">
+        <button
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="flex w-full items-center rounded-lg px-4 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+        >
+          Cerrar sesión
+        </button>
+      </div>
     </aside>
   );
 }

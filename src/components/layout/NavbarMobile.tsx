@@ -98,17 +98,6 @@ export function NavbarMobile({ userRole }: { userRole?: string }) {
                 </Link>
               </li>
             ))}
-            {userRole === "ADMIN" && (
-              <li>
-                <Link
-                  href="/admin"
-                  className="block rounded-lg px-4 py-3 text-foreground/80 transition-colors hover:bg-primary/10 hover:text-primary"
-                  onClick={close}
-                >
-                  Panel Admin
-                </Link>
-              </li>
-            )}
           </ul>
         </nav>
       </aside>

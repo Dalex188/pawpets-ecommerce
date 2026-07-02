@@ -66,6 +66,31 @@ export const authOptions: NextAuthConfig = {
       }
       return session;
     },
+    async authorized({ request: { nextUrl }, auth }) {
+      const user = auth?.user;
+      const isAdmin = user?.role === "ADMIN";
+      const isOnAdmin = nextUrl.pathname.startsWith("/admin");
+      const isOnLogin = nextUrl.pathname.startsWith("/login");
+
+      // Admin trying to access login → redirect to admin dashboard
+      if (isAdmin && isOnLogin) {
+        return Response.redirect(new URL("/admin", nextUrl));
+      }
+
+      // Non-admin trying to access admin → redirect home
+      if (!isAdmin && isOnAdmin) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
+
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative redirects
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows same-origin URLs
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
   },
 };
 

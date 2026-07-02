@@ -5,23 +5,23 @@ context: |
   Project: PawPets — E-commerce de Productos para Mascotas
   Tech stack: Next.js 14+ (App Router), TypeScript, Tailwind CSS, PostgreSQL + Prisma ORM, NextAuth.js, Zustand
   Architecture: SSR e-commerce with admin dashboard, simulated payment gateway
-  Testing: Not configured — no test runner detected (strict_tdd: false)
-  Style: ESLint + Prettier planned, responsive-first, Nunito typography via Google Fonts
+  Testing: Vitest 2.1 with @testing-library/jest-dom (strict_tdd: true)
+  Style: ESLint (next/core-web-vitals), responsive-first
   Brand palette: #1573B6 (blue), #57C2D1 (light blue), #E28A37 (orange), #FFFFFF (white), #1F2937 (text)
   Domain: Pet products e-commerce (dogs, cats, birds, fish, rodents)
 
-strict_tdd: false
+strict_tdd: true
 
 testing:
-  runner: null
+  runner: vitest
   layers:
-    unit: { available: false, tool: null }
-    integration: { available: false, tool: null }
+    unit: { available: true, tool: vitest }
+    integration: { available: true, tool: vitest + jsdom }
     e2e: { available: false, tool: null }
   coverage: { available: false, command: null }
   quality:
-    linter: { available: false, command: null }
-    type_checker: { available: false, command: null }
+    linter: { available: true, command: "npm run lint" }
+    type_checker: { available: true, command: "tsc --noEmit" }
     formatter: { available: false, command: null }
 
 rules:
@@ -42,10 +42,10 @@ rules:
     - Keep tasks completable in one session
   apply:
     - Follow existing code patterns
-    tdd: false
-    test_command: ""
+    tdd: true
+    test_command: "npm run test"
   verify:
-    test_command: ""
+    test_command: "npm run test"
     build_command: "npm run build || next build"
     coverage_threshold: 0
   archive:

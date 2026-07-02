@@ -49,14 +49,6 @@ export async function Navbar() {
           >
             Aves
           </Link>
-          {userRole === "ADMIN" && (
-            <Link
-              href="/admin"
-              className="text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
-            >
-              Panel Admin
-            </Link>
-          )}
         </nav>
 
         {/* Right section */}
@@ -89,7 +81,7 @@ export async function Navbar() {
           {/* Login / Profile */}
           {session?.user ? (
             <Link
-              href="/perfil"
+              href={userRole === "ADMIN" ? "/admin" : "/perfil"}
               className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 sm:inline-block"
             >
               Mi Perfil
