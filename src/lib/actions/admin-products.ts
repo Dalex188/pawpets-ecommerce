@@ -1,3 +1,5 @@
+"use server";
+
 // ──────────────────────────────────────────────
 // PawPets — Admin Server Actions
 // ──────────────────────────────────────────────
@@ -40,8 +42,8 @@ export type ProductActionInput = Pick<
  * Check if current user has ADMIN role.
  * Redirects to home if not admin.
  */
-function requireAdmin() {
-  const session = auth();
+async function requireAdmin() {
+  const session = await auth();
   if (!session?.user?.role || session.user.role !== "ADMIN") {
     redirect("/");
   }
@@ -71,7 +73,7 @@ function normalizeImages(images: string): string[] {
 export async function createProduct(
   formData: FormData,
 ): Promise<ActionResult<Product>> {
-  requireAdmin();
+  await requireAdmin();
 
   const name = formData.get("name") as string;
   const slug = formData.get("slug") as string;
@@ -134,7 +136,7 @@ export async function updateProduct(
   id: string,
   formData: FormData,
 ): Promise<ActionResult<Product>> {
-  requireAdmin();
+  await requireAdmin();
 
   const currentProduct = await db.product.findUnique({ where: { id } });
   if (!currentProduct) {
@@ -204,7 +206,7 @@ export async function updateProduct(
 export async function deleteProduct(
   id: string,
 ): Promise<ActionResult<void>> {
-  requireAdmin();
+  await requireAdmin();
 
   // Check if product has been ordered
   const orderItems = await db.orderItem.count({ where: { productId: id } });
