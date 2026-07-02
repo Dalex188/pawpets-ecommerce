@@ -2,8 +2,12 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { NavbarMobile } from "./NavbarMobile";
 import { SearchBar } from "@/components/products/SearchBar";
+import { auth } from "@/lib/auth";
 
-export function Navbar() {
+export async function Navbar() {
+  const session = await auth();
+  const userRole = session?.user?.role;
+
   return (
     <header className="sticky top-0 z-30 bg-white shadow">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -45,6 +49,14 @@ export function Navbar() {
           >
             Aves
           </Link>
+          {userRole === "ADMIN" && (
+            <Link
+              href="/admin"
+              className="text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
+            >
+              Panel Admin
+            </Link>
+          )}
         </nav>
 
         {/* Right section */}
@@ -75,15 +87,24 @@ export function Navbar() {
           </button>
 
           {/* Login / Profile */}
-          <Link
-            href="/login"
-            className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 sm:inline-block"
-          >
-            Iniciar sesión
-          </Link>
+          {session?.user ? (
+            <Link
+              href="/perfil"
+              className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 sm:inline-block"
+            >
+              Mi Perfil
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 sm:inline-block"
+            >
+              Iniciar sesión
+            </Link>
+          )}
 
           {/* Mobile hamburger */}
-          <NavbarMobile />
+          <NavbarMobile userRole={userRole} />
         </div>
       </div>
     </header>
